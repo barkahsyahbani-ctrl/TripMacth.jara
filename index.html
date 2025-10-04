@@ -2,52 +2,222 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TripMatch</title>
   <style>
-    body { font-family: Arial, sans-serif; margin:20px; background:#f5f5f5; }
-    header { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
-    header img { width:50px; height:50px; border-radius:50%; object-fit:cover; }
-    h1 { color:#333; }
-    .filter { background:#fff; padding:15px; border-radius:8px; margin-bottom:20px; }
-    label { display:block; margin-top:10px; font-weight:bold; }
-    select, input { width:100%; padding:8px; margin-top:5px; }
-    button { margin-top:15px; padding:10px 15px; border:none; border-radius:5px; cursor:pointer; }
-    .btn-primary { background:#28a745; color:white; }
-    .btn-reset { background:#999; color:white; margin-left:10px; }
-    .results { background:#fff; padding:15px; border-radius:8px; }
-    .card { border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:10px; display:flex; gap:10px; align-items:center; }
-    .card img { width:50px; height:50px; border-radius:50%; object-fit:cover; }
-    .card h3 { margin:0; color:#444; }
-    .card p { margin:3px 0; }
+    :root {
+      --ungu: #5E17EB;
+      --ungu-hover: #4b12d1;
+      --bg: #f5f5f5;
+      --card: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: #333;
+      line-height: 1.5;
+    }
+
+    /* ===== Header ===== */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--ungu);
+      color: #fff;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeDown 0.8s ease forwards;
+    }
+
+    header img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    @keyframes fadeDown {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== Filter Section ===== */
+    .filter {
+      background: var(--card);
+      padding: 16px;
+      border-radius: 10px;
+      max-width: 900px;
+      margin: 20px auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .filter label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .filter input, 
+    .filter select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    .filter button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .filter button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--ungu);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--ungu-hover);
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(94, 23, 235, 0.3);
+    }
+
+    .btn-reset {
+      background: #aaa;
+      color: #fff;
+    }
+
+    .btn-reset:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(170, 170, 170, 0.4);
+    }
+
+    /* ===== Result Cards ===== */
+    .results {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .card p {
+      margin: 3px 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 600px) {
+      header img {
+        width: 60px;
+        height: 60px;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <img src="logo.png.png" alt="TripMatch Logo">
+  <img src="logo.png.png" alt="Logo TripMatch">
   <h1>TripMatch</h1>
 </header>
 
 <div class="filter">
-  <label for="start">Tanggal Mulai</label>
-  <input type="date" id="start">
+  <div style="flex: 1 1 200px;">
+    <label for="start">Tanggal Mulai</label>
+    <input type="date" id="start">
+  </div>
 
-  <label for="end">Tanggal Selesai</label>
-  <input type="date" id="end">
+  <div style="flex: 1 1 200px;">
+    <label for="end">Tanggal Selesai</label>
+    <input type="date" id="end">
+  </div>
 
-  <label for="interest">Pilih Minat</label>
-  <select id="interest">
-    <option value="">Semua</option>
-    <option value="Alam">Alam</option>
-    <option value="Budaya">Budaya</option>
-    <option value="Kuliner">Kuliner</option>
-    <option value="Sejarah">Sejarah</option>
-    <option value="Belanja">Belanja</option>
-    <option value="Pantai">Pantai</option>
-  </select>
+  <div style="flex: 1 1 200px;">
+    <label for="interest">Pilih Minat</label>
+    <select id="interest">
+      <option value="">Semua</option>
+      <option value="Alam">Alam</option>
+      <option value="Budaya">Budaya</option>
+      <option value="Kuliner">Kuliner</option>
+      <option value="Sejarah">Sejarah</option>
+      <option value="Belanja">Belanja</option>
+      <option value="Pantai">Pantai</option>
+    </select>
+  </div>
 
-  <button class="btn-primary" onclick="findMatches()">Cari Match</button>
-  <button class="btn-reset" onclick="resetFilters()">Reset</button>
+  <div style="display: flex; gap: 10px;">
+    <button class="btn-primary" onclick="findMatches()">Cari Match</button>
+    <button class="btn-reset" onclick="resetFilters()">Reset</button>
+  </div>
 </div>
 
 <div class="results" id="results">
@@ -55,86 +225,85 @@
 </div>
 
 <script>
-const interests = ["Alam", "Budaya", "Kuliner", "Sejarah", "Belanja", "Pantai"];
-const femaleNames = ["Ayu","Siti","Rina","Lina","Maya","Dewi","Putri","Nina","Tia","Indah","Wulan","Ratna","Fira","Rani","Mira"];
-const maleNames   = ["Budi","Andi","Agus","Doni","Fajar","Rizky","Hendra","Joko","Arif","Bayu","Tono","Fadil","Rian","Dimas","Yoga"];
+  const interests = ["Alam", "Budaya", "Kuliner", "Sejarah", "Belanja", "Pantai"];
+  const femaleNames = ["Ayu","Siti","Rina","Lina","Maya","Dewi","Putri","Nina","Tia","Indah","Wulan","Ratna","Fira","Rani","Mira"];
+  const maleNames   = ["Budi","Andi","Agus","Doni","Fajar","Rizky","Hendra","Joko","Arif","Bayu","Tono","Fadil","Rian","Dimas","Yoga"];
 
-const profiles = [];
-let phoneNumber = 100000000; // awal no hp
+  const profiles = [];
+  let phoneNumber = 100000000;
 
-// generate 6 orang per tanggal
-let startDate = new Date("2025-09-30");
-for (let i = 0; i < 31; i++) {
-  let date = new Date(startDate);
-  date.setDate(startDate.getDate() + i);
-  let dateStr = date.toISOString().split("T")[0];
+  let startDate = new Date("2025-09-30");
+  for (let i = 0; i < 31; i++) {
+    let date = new Date(startDate);
+    date.setDate(startDate.getDate() + i);
+    let dateStr = date.toISOString().split("T")[0];
 
-  for (let j = 0; j < interests.length; j++) {
-    let gender = (j % 2 === 0) ? "Perempuan" : "Laki-laki";
-    let avatar = (gender === "Perempuan") ? "avatar_woman.png" : "avatar_man.png";
-    let interest = interests[j];
+    for (let j = 0; j < interests.length; j++) {
+      let gender = (j % 2 === 0) ? "Perempuan" : "Laki-laki";
+      let avatar = (gender === "Perempuan") ? "avatar_woman.png" : "avatar_man.png";
+      let interest = interests[j];
 
-    // pilih nama dari daftar, biar berputar
-    let nameList = (gender === "Perempuan") ? femaleNames : maleNames;
-    let name = nameList[(i + j) % nameList.length];
+      let nameList = (gender === "Perempuan") ? femaleNames : maleNames;
+      let name = nameList[(i + j) % nameList.length];
 
-    profiles.push({
-      name: name,
-      gender: gender,
-      interest: interest,
-      date: dateStr,
-      phone: String(phoneNumber++),
-      avatar: avatar
+      profiles.push({
+        name: name,
+        gender: gender,
+        interest: interest,
+        date: dateStr,
+        phone: String(phoneNumber++),
+        avatar: avatar
+      });
+    }
+  }
+
+  function findMatches() {
+    let start = document.getElementById("start").value;
+    let end = document.getElementById("end").value;
+    let interest = document.getElementById("interest").value;
+
+    let results = profiles.filter(p => {
+      let validDate = (!start || p.date >= start) && (!end || p.date <= end);
+      let validInterest = (!interest || p.interest === interest);
+      return validDate && validInterest;
+    });
+
+    displayResults(results);
+  }
+
+  function resetFilters(){
+    document.getElementById('start').value = "";
+    document.getElementById('end').value = "";
+    document.getElementById('interest').value = "";
+    document.getElementById('results').innerHTML = "<p>Hasil akan muncul di sini...</p>";
+  }
+
+  function displayResults(results) {
+    let container = document.getElementById("results");
+    container.innerHTML = "";
+
+    if (results.length === 0) {
+      container.innerHTML = "<p>Tidak ada hasil ditemukan.</p>";
+      return;
+    }
+
+    results.forEach((p, index) => {
+      let card = document.createElement("div");
+      card.className = "card";
+      card.style.animationDelay = `${index * 0.05}s`;
+      card.innerHTML = `
+        <img src="${p.avatar}" alt="${p.gender}">
+        <div>
+          <h3>${p.name}</h3>
+          <p>Gender: ${p.gender}</p>
+          <p>Minat: ${p.interest}</p>
+          <p>Tanggal: ${p.date}</p>
+          <p>No HP: ${p.phone}</p>
+        </div>
+      `;
+      container.appendChild(card);
     });
   }
-}
-
-function findMatches() {
-  let start = document.getElementById("start").value;
-  let end = document.getElementById("end").value;
-  let interest = document.getElementById("interest").value;
-
-  let results = profiles.filter(p => {
-    let validDate = (!start || p.date >= start) && (!end || p.date <= end);
-    let validInterest = (!interest || p.interest === interest);
-    return validDate && validInterest;
-  });
-
-  displayResults(results);
-}
-
-function resetFilters(){
-  document.getElementById('start').value = "";
-  document.getElementById('end').value = "";
-  document.getElementById('interest').value = "";
-  document.getElementById('results').innerHTML = "<p>Hasil akan muncul di sini...</p>";
-}
-
-function displayResults(results) {
-  let container = document.getElementById("results");
-  container.innerHTML = "";
-
-  if (results.length === 0) {
-    container.innerHTML = "<p>Tidak ada hasil ditemukan.</p>";
-    return;
-  }
-
-  results.forEach(p => {
-    let card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <img src="${p.avatar}" alt="${p.gender}">
-      <div>
-        <h3>${p.name}</h3>
-        <p>Gender: ${p.gender}</p>
-        <p>Minat: ${p.interest}</p>
-        <p>Tanggal: ${p.date}</p>
-        <p>No HP: ${p.phone}</p>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-}
 </script>
 
 </body>
